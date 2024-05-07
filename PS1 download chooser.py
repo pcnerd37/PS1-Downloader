@@ -31,6 +31,12 @@ def download_files(links, download_folder, progress_callback):
                 progress_callback(progress, index, total_files)
         print(f"Downloaded {link_text}")
 
+def on_download(checkboxes, file_links_with_sizes):
+    selected_links = [link for i, link in enumerate(file_links_with_sizes) if checkboxes[i].isChecked()]
+    download_folder = QFileDialog.getExistingDirectory()  # Ask the user to select a download folder
+    if download_folder:  # If the user didn't cancel the folder selection
+        download_files(selected_links, download_folder, update_progress_bar)
+
 def update_progress_bar(progress, file_index, total_files):
     progress_bar.setValue(progress)
     progress_bar.setFormat(f"Downloading file {file_index+1} of {total_files}: {progress}%")
